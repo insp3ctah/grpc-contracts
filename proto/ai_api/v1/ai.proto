@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ai_api.v1;
 
-option go_package = "github.com/insp3ctah/grpc-contracts";
+option go_package = "github.com/insp3ctah/grpc-contracts/proto";
 
 message AiApiRequest{
   int32 id = 1;

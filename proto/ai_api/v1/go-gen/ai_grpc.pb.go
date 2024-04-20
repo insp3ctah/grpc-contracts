@@ -4,7 +4,7 @@
 // - protoc             v5.26.0--rc3
 // source: ai.proto
 
-package grpc_contracts
+package proto
 
 import (
 	context "context"
