@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ai_api.v1;
+
+option go_package = "github.com/insp3ctah/grpc-contracts";
+
+message AiApiRequest{
+  int32 id = 1;
+}
+
+message AiApiResponse{
+  repeated int32 id_array = 1;
+}
+
+service AiApiService{
+  rpc GetIdFromAi(AiApiRequest) returns (AiApiResponse);
+}
