@@ -1,4 +1,4 @@
-module github.com/insp3ctah/grpc-contracts/proto
+module github.com/insp3ctah/grpc-contracts
 
 go 1.22.1
 
