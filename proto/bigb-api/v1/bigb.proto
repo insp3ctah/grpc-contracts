@@ -47,6 +47,6 @@ message DeleteUserResponse{
 service BigBService{
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
-  rpc UpdateUserResponse(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
 }
