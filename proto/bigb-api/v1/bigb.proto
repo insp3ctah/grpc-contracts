@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package bigb_api.v1;
+
+option go_package = "github.com/insp3ctah/grpc-contracts/proto";
+
+message User{
+  string Mail_addr = 1;
+  string Password = 2;
+  repeated string Filenames = 3;
+}
+
+message CreateUserRequest{
+  User user = 1;
+}
+
+message GetUserInfoRequest{
+  int32 id = 1;
+}
+
+message UpdateUserRequest{
+  int32 id = 1;
+  User user = 2;
+}
+
+message DeleteUserRequest{
+  int32 id = 1;
+}
+
+message CreateUserResponse{
+  int32 status = 1;
+  int32 id = 2;
+}
+
+message GetUserInfoResponse{
+  User user = 1;
+}
+
+message UpdateUserResponse{
+  int32 status = 1;
+}
+
+message DeleteUserResponse{
+  int32 status = 1;
+}
+
+service BigBService{
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc UpdateUserResponse(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+}
