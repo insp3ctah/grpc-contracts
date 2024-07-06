@@ -61,7 +61,7 @@ message AuthDataCorrectRequest{
 message AuthDataCorrectResponse{
   bool Is_correct = 1;
   int32 id = 2;
-  int32 is_admin = 3;
+  bool is_admin = 3;
 }
 
 
