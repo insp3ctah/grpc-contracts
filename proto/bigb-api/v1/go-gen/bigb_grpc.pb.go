@@ -26,6 +26,7 @@ type BigBServiceClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 }
 
 type bigBServiceClient struct {
@@ -72,6 +73,15 @@ func (c *bigBServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequ
 	return out, nil
 }
 
+func (c *bigBServiceClient) AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
+	out := new(GetUserInfoResponse)
+	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/AuthDataCorrect", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BigBServiceServer is the server API for BigBService service.
 // All implementations must embed UnimplementedBigBServiceServer
 // for forward compatibility
@@ -80,6 +90,7 @@ type BigBServiceServer interface {
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
+	AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*GetUserInfoResponse, error)
 	mustEmbedUnimplementedBigBServiceServer()
 }
 
@@ -98,6 +109,9 @@ func (UnimplementedBigBServiceServer) UpdateUser(context.Context, *UpdateUserReq
 }
 func (UnimplementedBigBServiceServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedBigBServiceServer) AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*GetUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthDataCorrect not implemented")
 }
 func (UnimplementedBigBServiceServer) mustEmbedUnimplementedBigBServiceServer() {}
 
@@ -184,6 +198,24 @@ func _BigBService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BigBService_AuthDataCorrect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthDataCorrectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BigBServiceServer).AuthDataCorrect(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bigb_api.v1.BigBService/AuthDataCorrect",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BigBServiceServer).AuthDataCorrect(ctx, req.(*AuthDataCorrectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BigBService_ServiceDesc is the grpc.ServiceDesc for BigBService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -206,6 +238,10 @@ var BigBService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserInfo",
 			Handler:    _BigBService_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "AuthDataCorrect",
+			Handler:    _BigBService_AuthDataCorrect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
