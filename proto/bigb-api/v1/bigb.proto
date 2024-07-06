@@ -13,31 +13,31 @@ service BigBService{
 }
 
 message User{
-  string mail_addr = 1;
-  string password = 2;
-  repeated string tags = 3;
-  repeated string filestrings = 4;
+  string Mail_addr = 1;
+  string Password = 2;
+  repeated string Tags = 3;
+  repeated string Filestrings = 4;
 }
 
 message RegisterUserRequest{
-  string mail_addr = 1;
-  string password = 2;
+  string Mail_addr = 1;
+  string Password = 2;
 }
 
 message RegisterUserResponse{
-  bool done = 1;
+  bool Done = 1;
 }
 
 message DeleteUserRequest{
-  int32 id = 1;
+  int32 Id = 1;
 }
 
 message DeleteUserResponse{
-  bool done = 1;
+  bool Done = 1;
 }
 
 message ReadUserRequest{
-  int32 token = 1;
+  int32 Id = 1;
 }
 
 message ReadUserResponse{
@@ -45,21 +45,21 @@ message ReadUserResponse{
 }
 
 message UpdateUserRequest{
-  int32 id = 1;
+  int32 Id = 1;
   User user = 2;
 }
 
 message UpdateUserResponse{
-  bool done = 1;
+  bool Done = 1;
 }
 
 message AuthDataCorrectRequest{
-  string mail_addr = 1;
-  string password = 2;
+  string Mail_addr = 1;
+  string Password = 2;
 }
 
 message AuthDataCorrectResponse{
-  bool is_correct = 1;
+  bool Is_correct = 1;
 }
 
 
