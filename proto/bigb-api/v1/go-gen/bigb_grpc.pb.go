@@ -22,11 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BigBServiceClient interface {
-	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
-	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
-	AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	ReadUser(ctx context.Context, in *ReadUserRequest, opts ...grpc.CallOption) (*ReadUserResponse, error)
+	AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*AuthDataCorrectResponse, error)
 }
 
 type bigBServiceClient struct {
@@ -37,9 +37,9 @@ func NewBigBServiceClient(cc grpc.ClientConnInterface) BigBServiceClient {
 	return &bigBServiceClient{cc}
 }
 
-func (c *bigBServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
-	out := new(CreateUserResponse)
-	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/CreateUser", in, out, opts...)
+func (c *bigBServiceClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
+	out := new(RegisterUserResponse)
+	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/RegisterUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,17 +64,17 @@ func (c *bigBServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 	return out, nil
 }
 
-func (c *bigBServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
-	out := new(GetUserInfoResponse)
-	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/GetUserInfo", in, out, opts...)
+func (c *bigBServiceClient) ReadUser(ctx context.Context, in *ReadUserRequest, opts ...grpc.CallOption) (*ReadUserResponse, error) {
+	out := new(ReadUserResponse)
+	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/ReadUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *bigBServiceClient) AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
-	out := new(GetUserInfoResponse)
+func (c *bigBServiceClient) AuthDataCorrect(ctx context.Context, in *AuthDataCorrectRequest, opts ...grpc.CallOption) (*AuthDataCorrectResponse, error) {
+	out := new(AuthDataCorrectResponse)
 	err := c.cc.Invoke(ctx, "/bigb_api.v1.BigBService/AuthDataCorrect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,11 +86,11 @@ func (c *bigBServiceClient) AuthDataCorrect(ctx context.Context, in *AuthDataCor
 // All implementations must embed UnimplementedBigBServiceServer
 // for forward compatibility
 type BigBServiceServer interface {
-	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
-	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
-	AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*GetUserInfoResponse, error)
+	ReadUser(context.Context, *ReadUserRequest) (*ReadUserResponse, error)
+	AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*AuthDataCorrectResponse, error)
 	mustEmbedUnimplementedBigBServiceServer()
 }
 
@@ -98,8 +98,8 @@ type BigBServiceServer interface {
 type UnimplementedBigBServiceServer struct {
 }
 
-func (UnimplementedBigBServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+func (UnimplementedBigBServiceServer) RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
 func (UnimplementedBigBServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
@@ -107,10 +107,10 @@ func (UnimplementedBigBServiceServer) DeleteUser(context.Context, *DeleteUserReq
 func (UnimplementedBigBServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedBigBServiceServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+func (UnimplementedBigBServiceServer) ReadUser(context.Context, *ReadUserRequest) (*ReadUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadUser not implemented")
 }
-func (UnimplementedBigBServiceServer) AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*GetUserInfoResponse, error) {
+func (UnimplementedBigBServiceServer) AuthDataCorrect(context.Context, *AuthDataCorrectRequest) (*AuthDataCorrectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuthDataCorrect not implemented")
 }
 func (UnimplementedBigBServiceServer) mustEmbedUnimplementedBigBServiceServer() {}
@@ -126,20 +126,20 @@ func RegisterBigBServiceServer(s grpc.ServiceRegistrar, srv BigBServiceServer) {
 	s.RegisterService(&BigBService_ServiceDesc, srv)
 }
 
-func _BigBService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserRequest)
+func _BigBService_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BigBServiceServer).CreateUser(ctx, in)
+		return srv.(BigBServiceServer).RegisterUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/bigb_api.v1.BigBService/CreateUser",
+		FullMethod: "/bigb_api.v1.BigBService/RegisterUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BigBServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
+		return srv.(BigBServiceServer).RegisterUser(ctx, req.(*RegisterUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -180,20 +180,20 @@ func _BigBService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BigBService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserInfoRequest)
+func _BigBService_ReadUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BigBServiceServer).GetUserInfo(ctx, in)
+		return srv.(BigBServiceServer).ReadUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/bigb_api.v1.BigBService/GetUserInfo",
+		FullMethod: "/bigb_api.v1.BigBService/ReadUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BigBServiceServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
+		return srv.(BigBServiceServer).ReadUser(ctx, req.(*ReadUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,8 +224,8 @@ var BigBService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*BigBServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateUser",
-			Handler:    _BigBService_CreateUser_Handler,
+			MethodName: "RegisterUser",
+			Handler:    _BigBService_RegisterUser_Handler,
 		},
 		{
 			MethodName: "DeleteUser",
@@ -236,8 +236,8 @@ var BigBService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BigBService_UpdateUser_Handler,
 		},
 		{
-			MethodName: "GetUserInfo",
-			Handler:    _BigBService_GetUserInfo_Handler,
+			MethodName: "ReadUser",
+			Handler:    _BigBService_ReadUser_Handler,
 		},
 		{
 			MethodName: "AuthDataCorrect",
