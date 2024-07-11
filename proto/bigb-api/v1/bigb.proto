@@ -44,12 +44,19 @@ message ReadUserResponse{
   User user = 1;
 }
 
-message UpdateUserRequest{
+message UpdateUserRequest {
   int32 Id = 1;
-  User user = 2;
+  string Mail_addr = 2;
+  string Password = 3;
+  string Name = 4;
+  int32 Age = 5;
+  int32 MediaIndex = 6;
+  string NewMedia = 7;
+  int32 TagIndex = 8;
+  string NewTag = 9;
 }
 
-message UpdateUserResponse{
+message UpdateUserResponse {
   bool Done = 1;
 }
 
@@ -60,8 +67,9 @@ message AuthDataCorrectRequest{
 
 message AuthDataCorrectResponse{
   bool Is_correct = 1;
-  int32 id = 2;
-  bool is_admin = 3;
+  int32 Id = 2;
+  bool Is_admin = 3;
+  bool Is_premium = 4;
 }
 
 
