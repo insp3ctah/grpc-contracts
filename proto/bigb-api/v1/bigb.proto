@@ -17,6 +17,10 @@ message User{
   string Password = 2;
   repeated string Tags = 3;
   repeated string Filestrings = 4;
+  string Name = 5;
+  int32 Age = 6;
+  bool Is_admin = 7;
+  bool Is_premium = 8;
 }
 
 message RegisterUserRequest{
