@@ -54,6 +54,8 @@ message UpdateUserRequest {
   string NewMedia = 7;
   int32 TagIndex = 8;
   string NewTag = 9;
+  bool Premium = 10;
+  bool Admin = 11;
 }
 
 message UpdateUserResponse {
