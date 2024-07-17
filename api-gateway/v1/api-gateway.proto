@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+package api_gateway.v1;
+
+option go_package = "github.com/insp3ctah/grpc-contracts/proto";
+
+service ApiGateway{
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc CheckToken(CheckTokenRequest) returns (CheckTokenResponse);
+  rpc ReadSelfUser(ReadSelfUserRequest) returns (ReadSelfUserResponse);
+  rpc ReadOtherUser(ReadOtherUserRequest) returns (ReadOtherUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc GetFeedUserPack(GetFeedUserPackRequest) returns (GetFeedUserPackResponse);
+  rpc UploadMedia(UploadMediaRequest) returns (UploadMediaResponse);
+  rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaRequest);
+  rpc GetUserMedia(GetUserMediaRequest) returns (GetUserMediaResponse);
+}
+
+message RegisterUserRequest{
+  string Mail_addr = 1;
+  string Password = 2;
+}
+
+message RegisterUserResponse{
+  bool Done = 1;
+}
+
+message LoginUserRequest{
+  string Mail_addr = 1;
+  string Password = 2;
+}
+
+message LoginUserResponse{
+  string Access_token = 1;
+  string Refresh_token = 2;
+}
+
+message RefreshTokenRequest{
+  string Access_token = 1;
+  string Refresh_token = 2;
+}
+
+message RefreshTokenResponse{
+  string Access_token = 1;
+  string Refresh_token = 2;
+}
+
+message CheckTokenRequest{
+  string Access_token = 1;
+  string Refresh_token = 2;
+}
+
+message CheckTokenResponse{
+  bool Is_correct = 1;
+}
+
+message ReadSelfUserRequest{
+  string Access_token = 1;
+}
+
+message SelfUserStruct{
+  string Mail_addr = 1;
+  string Name = 2;
+  int32 Age = 3;
+  repeated string Tags = 4;
+  repeated string Filestrings = 5;
+  bool Is_admin = 6;
+  bool Is_premium = 7;
+}
+
+message ReadSelfUserResponse{
+  SelfUserStruct SelfUser = 1;
+}
+
+message ReadOtherUserRequest{
+  string Access_token = 1;
+  int32 id = 2;
+}
+
+message OtherUserStruct{
+  string Name = 1;
+  int32 Age = 2;
+  repeated string Tags = 3;
+  repeated string Filestrings = 4;
+  bool Is_premium = 5;
+}
+
+message ReadOtherUserResponse{
+  OtherUserStruct OtherUser = 1;
+}
+
+message DeleteUserRequest{
+  string Access_token = 1;
+}
+
+message DeleteUserResponse{
+  bool Done = 1;
+}
+
+message UpdateUserStruct{
+  int32 Id = 1;
+  string Mail_addr = 2;
+  string Password = 3;
+  string Name = 4;
+  int32 Age = 5;
+  int32 MediaIndex = 6;
+  string NewMedia = 7;
+  int32 TagIndex = 8;
+  string NewTag = 9;
+  bool Premium = 10;
+  bool Admin = 11;
+}
+
+message UpdateUserRequest{
+  string Access_token = 1;
+  UpdateUserStruct updates = 2;
+}
+
+message UpdateUserResponse{
+  bool Done = 1;
+}
+
+message GetFeedUserPackRequest{
+  string Access_token = 1;
+}
+
+message GetFeedUserPackResponse{
+  repeated OtherUserStruct UserPack = 1;
+}
+
+message MediaFile {
+  string Name = 1;
+  bytes Buffer = 2;
+}
+
+message UploadMediaRequest{
+  string Access_token = 1;
+  MediaFile Media_file = 2;
+}
+
+message UploadMediaResponse{
+  bool Done = 1;
+}
+
+message DeleteMediaRequest{
+  string Access_token = 1;
+  int32 Index = 2;
+}
+
+message DeleteMediaResponse{
+  bool Done = 1;
+}
+
+message GetUserMediaRequest{
+  string Access_token = 1;
+  string Id = 2;
+}
+
+message GetUserMediaResponse {
+  repeated MediaFile Media_files = 1;
+}
