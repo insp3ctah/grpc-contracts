@@ -15,7 +15,7 @@ service ApiGateway{
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GetFeedUserPack(GetFeedUserPackRequest) returns (GetFeedUserPackResponse);
   rpc UploadMedia(UploadMediaRequest) returns (UploadMediaResponse);
-  rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaRequest);
+  rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaResponse);
   rpc GetUserMedia(GetUserMediaRequest) returns (GetUserMediaResponse);
 }
 
@@ -139,10 +139,12 @@ message MediaFile {
 message UploadMediaRequest{
   string Access_token = 1;
   MediaFile Media_file = 2;
+  string Content_type = 3;
 }
 
 message UploadMediaResponse{
   bool Done = 1;
+  string fileURL = 2;
 }
 
 message DeleteMediaRequest{

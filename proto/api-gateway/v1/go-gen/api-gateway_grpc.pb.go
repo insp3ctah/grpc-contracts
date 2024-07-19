@@ -32,7 +32,7 @@ type ApiGatewayClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	GetFeedUserPack(ctx context.Context, in *GetFeedUserPackRequest, opts ...grpc.CallOption) (*GetFeedUserPackResponse, error)
 	UploadMedia(ctx context.Context, in *UploadMediaRequest, opts ...grpc.CallOption) (*UploadMediaResponse, error)
-	DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaRequest, error)
+	DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaResponse, error)
 	GetUserMedia(ctx context.Context, in *GetUserMediaRequest, opts ...grpc.CallOption) (*GetUserMediaResponse, error)
 }
 
@@ -134,8 +134,8 @@ func (c *apiGatewayClient) UploadMedia(ctx context.Context, in *UploadMediaReque
 	return out, nil
 }
 
-func (c *apiGatewayClient) DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaRequest, error) {
-	out := new(DeleteMediaRequest)
+func (c *apiGatewayClient) DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaResponse, error) {
+	out := new(DeleteMediaResponse)
 	err := c.cc.Invoke(ctx, "/api_gateway.v1.ApiGateway/DeleteMedia", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ type ApiGatewayServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	GetFeedUserPack(context.Context, *GetFeedUserPackRequest) (*GetFeedUserPackResponse, error)
 	UploadMedia(context.Context, *UploadMediaRequest) (*UploadMediaResponse, error)
-	DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaRequest, error)
+	DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaResponse, error)
 	GetUserMedia(context.Context, *GetUserMediaRequest) (*GetUserMediaResponse, error)
 	mustEmbedUnimplementedApiGatewayServer()
 }
@@ -205,7 +205,7 @@ func (UnimplementedApiGatewayServer) GetFeedUserPack(context.Context, *GetFeedUs
 func (UnimplementedApiGatewayServer) UploadMedia(context.Context, *UploadMediaRequest) (*UploadMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadMedia not implemented")
 }
-func (UnimplementedApiGatewayServer) DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaRequest, error) {
+func (UnimplementedApiGatewayServer) DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMedia not implemented")
 }
 func (UnimplementedApiGatewayServer) GetUserMedia(context.Context, *GetUserMediaRequest) (*GetUserMediaResponse, error) {
