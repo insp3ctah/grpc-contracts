@@ -26,6 +26,8 @@ message RegisterUserRequest{
 
 message RegisterUserResponse{
   bool Done = 1;
+  string Access_token = 2;
+  string Refresh_token = 3;
 }
 
 message LoginUserRequest{
@@ -162,5 +164,5 @@ message GetUserMediaRequest{
 }
 
 message GetUserMediaResponse {
-  repeated MediaFile Media_files = 1;
+  repeated string Filestrings= 1;
 }
