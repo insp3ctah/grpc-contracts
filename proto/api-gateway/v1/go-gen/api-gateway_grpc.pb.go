@@ -19,18 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ApiGateway_RegisterUser_FullMethodName    = "/api_gateway.v1.ApiGateway/RegisterUser"
-	ApiGateway_LoginUser_FullMethodName       = "/api_gateway.v1.ApiGateway/LoginUser"
-	ApiGateway_RefreshToken_FullMethodName    = "/api_gateway.v1.ApiGateway/RefreshToken"
-	ApiGateway_CheckToken_FullMethodName      = "/api_gateway.v1.ApiGateway/CheckToken"
-	ApiGateway_ReadSelfUser_FullMethodName    = "/api_gateway.v1.ApiGateway/ReadSelfUser"
-	ApiGateway_ReadOtherUser_FullMethodName   = "/api_gateway.v1.ApiGateway/ReadOtherUser"
-	ApiGateway_DeleteUser_FullMethodName      = "/api_gateway.v1.ApiGateway/DeleteUser"
-	ApiGateway_UpdateUser_FullMethodName      = "/api_gateway.v1.ApiGateway/UpdateUser"
-	ApiGateway_GetFeedUserPack_FullMethodName = "/api_gateway.v1.ApiGateway/GetFeedUserPack"
-	ApiGateway_UploadMedia_FullMethodName     = "/api_gateway.v1.ApiGateway/UploadMedia"
-	ApiGateway_DeleteMedia_FullMethodName     = "/api_gateway.v1.ApiGateway/DeleteMedia"
-	ApiGateway_GetUserMedia_FullMethodName    = "/api_gateway.v1.ApiGateway/GetUserMedia"
+	ApiGateway_RegisterUser_FullMethodName       = "/api_gateway.v1.ApiGateway/RegisterUser"
+	ApiGateway_LoginUser_FullMethodName          = "/api_gateway.v1.ApiGateway/LoginUser"
+	ApiGateway_RefreshToken_FullMethodName       = "/api_gateway.v1.ApiGateway/RefreshToken"
+	ApiGateway_CheckToken_FullMethodName         = "/api_gateway.v1.ApiGateway/CheckToken"
+	ApiGateway_ReadSelfUser_FullMethodName       = "/api_gateway.v1.ApiGateway/ReadSelfUser"
+	ApiGateway_ReadOtherUser_FullMethodName      = "/api_gateway.v1.ApiGateway/ReadOtherUser"
+	ApiGateway_DeleteUser_FullMethodName         = "/api_gateway.v1.ApiGateway/DeleteUser"
+	ApiGateway_UpdateUser_FullMethodName         = "/api_gateway.v1.ApiGateway/UpdateUser"
+	ApiGateway_GetFeedUserPack_FullMethodName    = "/api_gateway.v1.ApiGateway/GetFeedUserPack"
+	ApiGateway_DeleteMedia_FullMethodName        = "/api_gateway.v1.ApiGateway/DeleteMedia"
+	ApiGateway_GetUserMedia_FullMethodName       = "/api_gateway.v1.ApiGateway/GetUserMedia"
+	ApiGateway_GetMediaUploadURL_FullMethodName  = "/api_gateway.v1.ApiGateway/GetMediaUploadURL"
+	ApiGateway_ConfirmUploadMedia_FullMethodName = "/api_gateway.v1.ApiGateway/ConfirmUploadMedia"
 )
 
 // ApiGatewayClient is the client API for ApiGateway service.
@@ -46,9 +47,10 @@ type ApiGatewayClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	GetFeedUserPack(ctx context.Context, in *GetFeedUserPackRequest, opts ...grpc.CallOption) (*GetFeedUserPackResponse, error)
-	UploadMedia(ctx context.Context, in *UploadMediaRequest, opts ...grpc.CallOption) (*UploadMediaResponse, error)
 	DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaResponse, error)
 	GetUserMedia(ctx context.Context, in *GetUserMediaRequest, opts ...grpc.CallOption) (*GetUserMediaResponse, error)
+	GetMediaUploadURL(ctx context.Context, in *GetMediaUploadUrlRequest, opts ...grpc.CallOption) (*GetMediaUploadUrlResponse, error)
+	ConfirmUploadMedia(ctx context.Context, in *ConfirmUploadMediaRequest, opts ...grpc.CallOption) (*ConfirmUploadMediaResponse, error)
 }
 
 type apiGatewayClient struct {
@@ -149,16 +151,6 @@ func (c *apiGatewayClient) GetFeedUserPack(ctx context.Context, in *GetFeedUserP
 	return out, nil
 }
 
-func (c *apiGatewayClient) UploadMedia(ctx context.Context, in *UploadMediaRequest, opts ...grpc.CallOption) (*UploadMediaResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UploadMediaResponse)
-	err := c.cc.Invoke(ctx, ApiGateway_UploadMedia_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *apiGatewayClient) DeleteMedia(ctx context.Context, in *DeleteMediaRequest, opts ...grpc.CallOption) (*DeleteMediaResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteMediaResponse)
@@ -179,6 +171,26 @@ func (c *apiGatewayClient) GetUserMedia(ctx context.Context, in *GetUserMediaReq
 	return out, nil
 }
 
+func (c *apiGatewayClient) GetMediaUploadURL(ctx context.Context, in *GetMediaUploadUrlRequest, opts ...grpc.CallOption) (*GetMediaUploadUrlResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMediaUploadUrlResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_GetMediaUploadURL_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiGatewayClient) ConfirmUploadMedia(ctx context.Context, in *ConfirmUploadMediaRequest, opts ...grpc.CallOption) (*ConfirmUploadMediaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmUploadMediaResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_ConfirmUploadMedia_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiGatewayServer is the server API for ApiGateway service.
 // All implementations must embed UnimplementedApiGatewayServer
 // for forward compatibility
@@ -192,9 +204,10 @@ type ApiGatewayServer interface {
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	GetFeedUserPack(context.Context, *GetFeedUserPackRequest) (*GetFeedUserPackResponse, error)
-	UploadMedia(context.Context, *UploadMediaRequest) (*UploadMediaResponse, error)
 	DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaResponse, error)
 	GetUserMedia(context.Context, *GetUserMediaRequest) (*GetUserMediaResponse, error)
+	GetMediaUploadURL(context.Context, *GetMediaUploadUrlRequest) (*GetMediaUploadUrlResponse, error)
+	ConfirmUploadMedia(context.Context, *ConfirmUploadMediaRequest) (*ConfirmUploadMediaResponse, error)
 	mustEmbedUnimplementedApiGatewayServer()
 }
 
@@ -229,14 +242,17 @@ func (UnimplementedApiGatewayServer) UpdateUser(context.Context, *UpdateUserRequ
 func (UnimplementedApiGatewayServer) GetFeedUserPack(context.Context, *GetFeedUserPackRequest) (*GetFeedUserPackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeedUserPack not implemented")
 }
-func (UnimplementedApiGatewayServer) UploadMedia(context.Context, *UploadMediaRequest) (*UploadMediaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadMedia not implemented")
-}
 func (UnimplementedApiGatewayServer) DeleteMedia(context.Context, *DeleteMediaRequest) (*DeleteMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMedia not implemented")
 }
 func (UnimplementedApiGatewayServer) GetUserMedia(context.Context, *GetUserMediaRequest) (*GetUserMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserMedia not implemented")
+}
+func (UnimplementedApiGatewayServer) GetMediaUploadURL(context.Context, *GetMediaUploadUrlRequest) (*GetMediaUploadUrlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMediaUploadURL not implemented")
+}
+func (UnimplementedApiGatewayServer) ConfirmUploadMedia(context.Context, *ConfirmUploadMediaRequest) (*ConfirmUploadMediaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmUploadMedia not implemented")
 }
 func (UnimplementedApiGatewayServer) mustEmbedUnimplementedApiGatewayServer() {}
 
@@ -413,24 +429,6 @@ func _ApiGateway_GetFeedUserPack_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiGateway_UploadMedia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadMediaRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiGatewayServer).UploadMedia(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ApiGateway_UploadMedia_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiGatewayServer).UploadMedia(ctx, req.(*UploadMediaRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ApiGateway_DeleteMedia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteMediaRequest)
 	if err := dec(in); err != nil {
@@ -463,6 +461,42 @@ func _ApiGateway_GetUserMedia_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ApiGatewayServer).GetUserMedia(ctx, req.(*GetUserMediaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiGateway_GetMediaUploadURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMediaUploadUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).GetMediaUploadURL(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_GetMediaUploadURL_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).GetMediaUploadURL(ctx, req.(*GetMediaUploadUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiGateway_ConfirmUploadMedia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmUploadMediaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).ConfirmUploadMedia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_ConfirmUploadMedia_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).ConfirmUploadMedia(ctx, req.(*ConfirmUploadMediaRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -511,16 +545,20 @@ var ApiGateway_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ApiGateway_GetFeedUserPack_Handler,
 		},
 		{
-			MethodName: "UploadMedia",
-			Handler:    _ApiGateway_UploadMedia_Handler,
-		},
-		{
 			MethodName: "DeleteMedia",
 			Handler:    _ApiGateway_DeleteMedia_Handler,
 		},
 		{
 			MethodName: "GetUserMedia",
 			Handler:    _ApiGateway_GetUserMedia_Handler,
+		},
+		{
+			MethodName: "GetMediaUploadURL",
+			Handler:    _ApiGateway_GetMediaUploadURL_Handler,
+		},
+		{
+			MethodName: "ConfirmUploadMedia",
+			Handler:    _ApiGateway_ConfirmUploadMedia_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
