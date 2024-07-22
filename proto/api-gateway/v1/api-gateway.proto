@@ -14,9 +14,10 @@ service ApiGateway{
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GetFeedUserPack(GetFeedUserPackRequest) returns (GetFeedUserPackResponse);
-  rpc UploadMedia(UploadMediaRequest) returns (UploadMediaResponse);
   rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaResponse);
   rpc GetUserMedia(GetUserMediaRequest) returns (GetUserMediaResponse);
+  rpc GetMediaUploadURL(GetMediaUploadUrlRequest) returns (GetMediaUploadUrlResponse);
+  rpc ConfirmUploadMedia(ConfirmUploadMediaRequest) returns (ConfirmUploadMediaResponse);
 }
 
 message RegisterUserRequest{
@@ -147,6 +148,26 @@ message UploadMediaRequest{
 message UploadMediaResponse{
   bool Done = 1;
   string fileURL = 2;
+}
+
+message GetMediaUploadUrlRequest{
+  string Access_token = 1;
+  string ContentType = 2;
+  string FileName = 3;
+}
+
+message GetMediaUploadUrlResponse{
+  string UploadURL = 1;
+  string FileKey = 2;
+}
+
+message ConfirmUploadMediaRequest{
+  string accessToken = 1;
+  string fileKey = 2;
+}
+
+message ConfirmUploadMediaResponse{
+  bool Done = 1;
 }
 
 message DeleteMediaRequest{
