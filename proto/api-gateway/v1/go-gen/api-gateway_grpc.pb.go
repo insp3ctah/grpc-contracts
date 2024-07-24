@@ -32,6 +32,10 @@ const (
 	ApiGateway_GetUserMedia_FullMethodName       = "/api_gateway.v1.ApiGateway/GetUserMedia"
 	ApiGateway_GetMediaUploadURL_FullMethodName  = "/api_gateway.v1.ApiGateway/GetMediaUploadURL"
 	ApiGateway_ConfirmUploadMedia_FullMethodName = "/api_gateway.v1.ApiGateway/ConfirmUploadMedia"
+	ApiGateway_Like_FullMethodName               = "/api_gateway.v1.ApiGateway/Like"
+	ApiGateway_SuperLike_FullMethodName          = "/api_gateway.v1.ApiGateway/SuperLike"
+	ApiGateway_Dislike_FullMethodName            = "/api_gateway.v1.ApiGateway/Dislike"
+	ApiGateway_Save_FullMethodName               = "/api_gateway.v1.ApiGateway/Save"
 )
 
 // ApiGatewayClient is the client API for ApiGateway service.
@@ -51,6 +55,10 @@ type ApiGatewayClient interface {
 	GetUserMedia(ctx context.Context, in *GetUserMediaRequest, opts ...grpc.CallOption) (*GetUserMediaResponse, error)
 	GetMediaUploadURL(ctx context.Context, in *GetMediaUploadUrlRequest, opts ...grpc.CallOption) (*GetMediaUploadUrlResponse, error)
 	ConfirmUploadMedia(ctx context.Context, in *ConfirmUploadMediaRequest, opts ...grpc.CallOption) (*ConfirmUploadMediaResponse, error)
+	Like(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*LikeResponse, error)
+	SuperLike(ctx context.Context, in *SuperLikeRequest, opts ...grpc.CallOption) (*SuperLikeResponse, error)
+	Dislike(ctx context.Context, in *DislikeRequest, opts ...grpc.CallOption) (*DislikeResponse, error)
+	Save(ctx context.Context, in *SaveRequest, opts ...grpc.CallOption) (*SaveResponse, error)
 }
 
 type apiGatewayClient struct {
@@ -191,6 +199,46 @@ func (c *apiGatewayClient) ConfirmUploadMedia(ctx context.Context, in *ConfirmUp
 	return out, nil
 }
 
+func (c *apiGatewayClient) Like(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*LikeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LikeResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_Like_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiGatewayClient) SuperLike(ctx context.Context, in *SuperLikeRequest, opts ...grpc.CallOption) (*SuperLikeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SuperLikeResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_SuperLike_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiGatewayClient) Dislike(ctx context.Context, in *DislikeRequest, opts ...grpc.CallOption) (*DislikeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DislikeResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_Dislike_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiGatewayClient) Save(ctx context.Context, in *SaveRequest, opts ...grpc.CallOption) (*SaveResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveResponse)
+	err := c.cc.Invoke(ctx, ApiGateway_Save_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiGatewayServer is the server API for ApiGateway service.
 // All implementations must embed UnimplementedApiGatewayServer
 // for forward compatibility
@@ -208,6 +256,10 @@ type ApiGatewayServer interface {
 	GetUserMedia(context.Context, *GetUserMediaRequest) (*GetUserMediaResponse, error)
 	GetMediaUploadURL(context.Context, *GetMediaUploadUrlRequest) (*GetMediaUploadUrlResponse, error)
 	ConfirmUploadMedia(context.Context, *ConfirmUploadMediaRequest) (*ConfirmUploadMediaResponse, error)
+	Like(context.Context, *LikeRequest) (*LikeResponse, error)
+	SuperLike(context.Context, *SuperLikeRequest) (*SuperLikeResponse, error)
+	Dislike(context.Context, *DislikeRequest) (*DislikeResponse, error)
+	Save(context.Context, *SaveRequest) (*SaveResponse, error)
 	mustEmbedUnimplementedApiGatewayServer()
 }
 
@@ -253,6 +305,18 @@ func (UnimplementedApiGatewayServer) GetMediaUploadURL(context.Context, *GetMedi
 }
 func (UnimplementedApiGatewayServer) ConfirmUploadMedia(context.Context, *ConfirmUploadMediaRequest) (*ConfirmUploadMediaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfirmUploadMedia not implemented")
+}
+func (UnimplementedApiGatewayServer) Like(context.Context, *LikeRequest) (*LikeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Like not implemented")
+}
+func (UnimplementedApiGatewayServer) SuperLike(context.Context, *SuperLikeRequest) (*SuperLikeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SuperLike not implemented")
+}
+func (UnimplementedApiGatewayServer) Dislike(context.Context, *DislikeRequest) (*DislikeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Dislike not implemented")
+}
+func (UnimplementedApiGatewayServer) Save(context.Context, *SaveRequest) (*SaveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
 }
 func (UnimplementedApiGatewayServer) mustEmbedUnimplementedApiGatewayServer() {}
 
@@ -501,6 +565,78 @@ func _ApiGateway_ConfirmUploadMedia_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiGateway_Like_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).Like(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_Like_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).Like(ctx, req.(*LikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiGateway_SuperLike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuperLikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).SuperLike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_SuperLike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).SuperLike(ctx, req.(*SuperLikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiGateway_Dislike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DislikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).Dislike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_Dislike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).Dislike(ctx, req.(*DislikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiGateway_Save_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).Save(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiGateway_Save_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).Save(ctx, req.(*SaveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiGateway_ServiceDesc is the grpc.ServiceDesc for ApiGateway service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -559,6 +695,22 @@ var ApiGateway_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfirmUploadMedia",
 			Handler:    _ApiGateway_ConfirmUploadMedia_Handler,
+		},
+		{
+			MethodName: "Like",
+			Handler:    _ApiGateway_Like_Handler,
+		},
+		{
+			MethodName: "SuperLike",
+			Handler:    _ApiGateway_SuperLike_Handler,
+		},
+		{
+			MethodName: "Dislike",
+			Handler:    _ApiGateway_Dislike_Handler,
+		},
+		{
+			MethodName: "Save",
+			Handler:    _ApiGateway_Save_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
