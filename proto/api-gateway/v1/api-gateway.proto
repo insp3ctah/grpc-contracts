@@ -18,6 +18,10 @@ service ApiGateway{
   rpc GetUserMedia(GetUserMediaRequest) returns (GetUserMediaResponse);
   rpc GetMediaUploadURL(GetMediaUploadUrlRequest) returns (GetMediaUploadUrlResponse);
   rpc ConfirmUploadMedia(ConfirmUploadMediaRequest) returns (ConfirmUploadMediaResponse);
+  rpc Like (LikeRequest) returns(LikeResponse);
+  rpc SuperLike(SuperLikeRequest) returns (SuperLikeResponse);
+  rpc Dislike (DislikeRequest) returns (DislikeResponse);
+  rpc Save(SaveRequest) returns (SaveResponse);
 }
 
 message RegisterUserRequest{
@@ -65,13 +69,14 @@ message ReadSelfUserRequest{
 }
 
 message SelfUserStruct{
-  string Mail_addr = 1;
-  string Name = 2;
-  int32 Age = 3;
-  repeated string Tags = 4;
-  repeated string Filestrings = 5;
-  bool Is_admin = 6;
-  bool Is_premium = 7;
+  int32 Id = 1;
+  string Mail_addr = 2;
+  string Name = 3;
+  int32 Age = 4;
+  repeated string Tags = 5;
+  repeated string Filestrings = 6;
+  bool Is_admin = 7;
+  bool Is_premium = 8;
 }
 
 message ReadSelfUserResponse{
@@ -84,11 +89,12 @@ message ReadOtherUserRequest{
 }
 
 message OtherUserStruct{
-  string Name = 1;
-  int32 Age = 2;
-  repeated string Tags = 3;
-  repeated string Filestrings = 4;
-  bool Is_premium = 5;
+  int32 Id = 1;
+  string Name = 2;
+  int32 Age = 3;
+  repeated string Tags = 4;
+  repeated string Filestrings = 5;
+  bool Is_premium = 6;
 }
 
 message ReadOtherUserResponse{
@@ -104,7 +110,6 @@ message DeleteUserResponse{
 }
 
 message UpdateUserStruct{
-  int32 Id = 1;
   string Mail_addr = 2;
   string Password = 3;
   string Name = 4;
@@ -186,4 +191,44 @@ message GetUserMediaRequest{
 
 message GetUserMediaResponse {
   repeated string Filestrings= 1;
+}
+
+message LikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message LikeResponse{
+  bool Done = 1;
+  bool Match = 2;
+  bool OutOfLikes = 3;
+}
+
+message SuperLikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+  string Message = 3;
+}
+
+message SuperLikeResponse{
+  bool Done = 1;
+  bool Match = 2;
+}
+
+message DislikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message DislikeResponse{
+  bool Done = 1;
+}
+
+message SaveRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message SaveResponse{
+  bool Done = 2;
 }

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package feed_api.v1;
+
+option go_package = "github.com/insp3ctah/grpc-contracts/proto";
+
+service Feed{
+  rpc Like (LikeRequest) returns(LikeResponse);
+  rpc SuperLike(SuperLikeRequest) returns (SuperLikeResponse);
+  rpc Dislike (DislikeRequest) returns (DislikeResponse);
+  rpc Save(SaveRequest) returns (SaveResponse);
+}
+
+message LikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message LikeResponse{
+  bool Done = 1;
+  bool Match = 2;
+  bool OutOfLikes = 3;
+}
+
+message SuperLikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+  string Message = 3;
+}
+
+message SuperLikeResponse{
+  bool Done = 1;
+  bool Match = 2;
+}
+
+message DislikeRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message DislikeResponse{
+  bool Done = 1;
+}
+
+message SaveRequest{
+  string AccessToken = 1;
+  int32 Id = 2;
+}
+
+message SaveResponse{
+  bool Done = 2;
+}
