@@ -85,7 +85,7 @@ message ReadSelfUserResponse{
 
 message ReadOtherUserRequest{
   string Access_token = 1;
-  int32 id = 2;
+  int32 Id = 2;
 }
 
 message OtherUserStruct{
