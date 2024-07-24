@@ -186,7 +186,7 @@ message DeleteMediaResponse{
 
 message GetUserMediaRequest{
   string Access_token = 1;
-  string Id = 2;
+  int32 Id = 2;
 }
 
 message GetUserMediaResponse {
