@@ -18,10 +18,12 @@ service ApiGateway{
   rpc GetUserMedia(GetUserMediaRequest) returns (GetUserMediaResponse);
   rpc GetMediaUploadURL(GetMediaUploadUrlRequest) returns (GetMediaUploadUrlResponse);
   rpc ConfirmUploadMedia(ConfirmUploadMediaRequest) returns (ConfirmUploadMediaResponse);
-  rpc Like (LikeRequest) returns(LikeResponse);
+  rpc Like (LikeRequest) returns (LikeResponse);
   rpc SuperLike(SuperLikeRequest) returns (SuperLikeResponse);
   rpc Dislike (DislikeRequest) returns (DislikeResponse);
   rpc Save(SaveRequest) returns (SaveResponse);
+  rpc WhoLikedMe(WhoLikedMeRequest) returns (WhoLikedMeResponse);
+  rpc GetSaved(GetSavedRequest) returns (GetSavedResponse);
 }
 
 message RegisterUserRequest{
@@ -231,4 +233,20 @@ message SaveRequest{
 
 message SaveResponse{
   bool Done = 2;
+}
+
+message WhoLikedMeRequest{
+  int32 Id = 1;
+}
+
+message WhoLikedMeResponse{
+  repeated int32 Users = 1;
+}
+
+message GetSavedRequest{
+  int32 Id = 1;
+}
+
+message GetSavedResponse{
+  repeated int32 Users = 1;
 }
