@@ -16,8 +16,8 @@ service FeedServ{
 }
 
 message LikeRequest{
-  string AccessToken = 1;
-  int32 Id = 2;
+  int32 IdFrom = 1;
+  int32 IdTo = 2;
 }
 
 message LikeResponse{
@@ -27,8 +27,8 @@ message LikeResponse{
 }
 
 message SuperLikeRequest{
-  string AccessToken = 1;
-  int32 Id = 2;
+  int32 IdFrom = 1;
+  int32 IdTo = 2;
   string Message = 3;
 }
 
@@ -38,8 +38,8 @@ message SuperLikeResponse{
 }
 
 message DislikeRequest{
-  string AccessToken = 1;
-  int32 Id = 2;
+  int32 IdFrom = 1;
+  int32 IdTo = 2;
 }
 
 message DislikeResponse{
@@ -47,8 +47,8 @@ message DislikeResponse{
 }
 
 message SaveRequest{
-  string AccessToken = 1;
-  int32 Id = 2;
+  int32 IdFrom = 1;
+  int32 IdTo = 2;
 }
 
 message SaveResponse{
