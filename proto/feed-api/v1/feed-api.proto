@@ -1,14 +1,18 @@
 syntax = "proto3";
 
-package feed_api.v1;
+package feed_serv.v1;
 
 option go_package = "github.com/insp3ctah/grpc-contracts/proto";
 
-service Feed{
+service FeedServ{
   rpc Like (LikeRequest) returns(LikeResponse);
   rpc SuperLike(SuperLikeRequest) returns (SuperLikeResponse);
   rpc Dislike (DislikeRequest) returns (DislikeResponse);
   rpc Save(SaveRequest) returns (SaveResponse);
+  rpc WhoLikedMe(WhoLikedMeRequest) returns (WhoLikedMeResponse);
+  rpc GetSaved(GetSavedRequest) returns (GetSavedResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }
 
 message LikeRequest{
@@ -49,4 +53,34 @@ message SaveRequest{
 
 message SaveResponse{
   bool Done = 2;
+}
+
+message WhoLikedMeRequest{
+  int32 Id = 1;
+}
+
+message WhoLikedMeResponse{
+  repeated int32 Users = 1;
+}
+
+message GetSavedRequest{
+  int32 Id = 1;
+}
+
+message GetSavedResponse{
+  repeated int32 Users = 1;
+}
+
+message CreateUserRequest{}
+
+message CreateUserResponse{
+  bool Done = 1;
+}
+
+message DeleteUserRequest{
+  int32 Id = 1;
+}
+
+message DeleteUserResponse{
+  bool Done = 1;
 }
