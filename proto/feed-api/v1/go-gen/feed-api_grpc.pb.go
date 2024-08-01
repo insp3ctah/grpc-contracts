@@ -28,6 +28,8 @@ type FeedServClient interface {
 	Save(ctx context.Context, in *SaveRequest, opts ...grpc.CallOption) (*SaveResponse, error)
 	WhoLikedMe(ctx context.Context, in *WhoLikedMeRequest, opts ...grpc.CallOption) (*WhoLikedMeResponse, error)
 	GetSaved(ctx context.Context, in *GetSavedRequest, opts ...grpc.CallOption) (*GetSavedResponse, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 }
 
 type feedServClient struct {
@@ -92,6 +94,24 @@ func (c *feedServClient) GetSaved(ctx context.Context, in *GetSavedRequest, opts
 	return out, nil
 }
 
+func (c *feedServClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+	out := new(CreateUserResponse)
+	err := c.cc.Invoke(ctx, "/feed_serv.v1.FeedServ/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *feedServClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	out := new(DeleteUserResponse)
+	err := c.cc.Invoke(ctx, "/feed_serv.v1.FeedServ/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FeedServServer is the server API for FeedServ service.
 // All implementations must embed UnimplementedFeedServServer
 // for forward compatibility
@@ -102,6 +122,8 @@ type FeedServServer interface {
 	Save(context.Context, *SaveRequest) (*SaveResponse, error)
 	WhoLikedMe(context.Context, *WhoLikedMeRequest) (*WhoLikedMeResponse, error)
 	GetSaved(context.Context, *GetSavedRequest) (*GetSavedResponse, error)
+	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	mustEmbedUnimplementedFeedServServer()
 }
 
@@ -126,6 +148,12 @@ func (UnimplementedFeedServServer) WhoLikedMe(context.Context, *WhoLikedMeReques
 }
 func (UnimplementedFeedServServer) GetSaved(context.Context, *GetSavedRequest) (*GetSavedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSaved not implemented")
+}
+func (UnimplementedFeedServServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedFeedServServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedFeedServServer) mustEmbedUnimplementedFeedServServer() {}
 
@@ -248,6 +276,42 @@ func _FeedServ_GetSaved_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FeedServ_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeedServServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feed_serv.v1.FeedServ/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeedServServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeedServ_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeedServServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feed_serv.v1.FeedServ/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeedServServer).DeleteUser(ctx, req.(*DeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FeedServ_ServiceDesc is the grpc.ServiceDesc for FeedServ service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -278,6 +342,14 @@ var FeedServ_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSaved",
 			Handler:    _FeedServ_GetSaved_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _FeedServ_CreateUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _FeedServ_DeleteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
