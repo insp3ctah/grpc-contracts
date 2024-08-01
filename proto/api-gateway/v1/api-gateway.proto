@@ -241,7 +241,7 @@ message WhoLikedMeRequest{
 }
 
 message WhoLikedMeResponse{
-  repeated int32 Users = 1;
+  repeated OtherUserStruct UserPack = 1;
 }
 
 message GetSavedRequest{
@@ -250,5 +250,5 @@ message GetSavedRequest{
 }
 
 message GetSavedResponse{
-  repeated int32 Users = 1;
+  repeated OtherUserStruct UserPack = 1;
 }
