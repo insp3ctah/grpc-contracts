@@ -236,7 +236,8 @@ message SaveResponse{
 }
 
 message WhoLikedMeRequest{
-  int32 Id = 1;
+  string AccessToken = 1;
+  int32 Id = 2;
 }
 
 message WhoLikedMeResponse{
@@ -244,7 +245,8 @@ message WhoLikedMeResponse{
 }
 
 message GetSavedRequest{
-  int32 Id = 1;
+  string AccessToken = 1;
+  int32 Id = 2;
 }
 
 message GetSavedResponse{
