@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package chat_serv.v1;
+
+option go_package = "github.com/insp3ctah/grpc-contracts/proto";
+
+service ChatService {
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc ReceiveMessages(ReceiveMessagesRequest) returns (stream ReceiveMessagesResponse);
+  rpc RegisterDevice(RegisterDeviceRequest) returns (RegisterDeviceResponse);
+  rpc GetChatHistory(GetChatHistoryRequest) returns (GetChatHistoryResponse);
+}
+
+message SendMessageRequest {
+  string Sender = 1;
+  string Receiver = 2;
+  string Content = 3;
+}
+
+message SendMessageResponse {
+  bool Done = 1;
+}
+
+message ReceiveMessagesRequest {
+  string Id = 1;
+}
+
+message ReceiveMessagesResponse {
+  string Sender = 1;
+  string Content = 2;
+  string Timestamp = 3;
+}
+
+message RegisterDeviceRequest {
+  string Id = 1;
+  string DeviceToken = 2;
+  string Platform = 3;
+}
+
+message RegisterDeviceResponse {
+  bool Done = 1;
+}
+
+message GetChatHistoryRequest {
+  string DialogueOwner = 1;
+  string Partner = 2;
+}
+
+message GetChatHistoryResponse {
+  repeated ChatMessage messages = 1;
+}
+
+message ChatMessage {
+  string Sender = 1;
+  string Content = 2;
+  string Timestamp = 3;
+}
