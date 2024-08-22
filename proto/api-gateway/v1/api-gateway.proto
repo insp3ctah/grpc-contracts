@@ -255,9 +255,10 @@ message GetSavedResponse{
 }
 
 message GetMatchRequest{
-  int32 id = 1;
+  string AccessToken = 1;
+  int32 Id = 2;
 }
 
 message GetMatchResponse{
-  repeated int32 Users = 1;
+  repeated OtherUserStruct UserPack = 1;
 }
