@@ -13,6 +13,7 @@ service FeedServ{
   rpc GetSaved(GetSavedRequest) returns (GetSavedResponse);
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc GetMatch(GetMatchRequest) returns (GetMatchResponse);
 }
 
 message LikeRequest{
@@ -83,4 +84,12 @@ message DeleteUserRequest{
 
 message DeleteUserResponse{
   bool Done = 1;
+}
+
+message GetMatchRequest{
+  int32 id = 1;
+}
+
+message GetMatchResponse{
+  repeated int32 Users = 1;
 }

@@ -24,6 +24,7 @@ service ApiGateway{
   rpc Save(SaveRequest) returns (SaveResponse);
   rpc WhoLikedMe(WhoLikedMeRequest) returns (WhoLikedMeResponse);
   rpc GetSaved(GetSavedRequest) returns (GetSavedResponse);
+  rpc GetMatch(GetMatchRequest) returns (GetMatchResponse);
 }
 
 message RegisterUserRequest{
@@ -251,4 +252,12 @@ message GetSavedRequest{
 
 message GetSavedResponse{
   repeated OtherUserStruct UserPack = 1;
+}
+
+message GetMatchRequest{
+  int32 id = 1;
+}
+
+message GetMatchResponse{
+  repeated int32 Users = 1;
 }

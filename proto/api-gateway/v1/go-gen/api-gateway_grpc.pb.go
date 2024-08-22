@@ -41,6 +41,7 @@ type ApiGatewayClient interface {
 	Save(ctx context.Context, in *SaveRequest, opts ...grpc.CallOption) (*SaveResponse, error)
 	WhoLikedMe(ctx context.Context, in *WhoLikedMeRequest, opts ...grpc.CallOption) (*WhoLikedMeResponse, error)
 	GetSaved(ctx context.Context, in *GetSavedRequest, opts ...grpc.CallOption) (*GetSavedResponse, error)
+	GetMatch(ctx context.Context, in *GetMatchRequest, opts ...grpc.CallOption) (*GetMatchResponse, error)
 }
 
 type apiGatewayClient struct {
@@ -222,6 +223,15 @@ func (c *apiGatewayClient) GetSaved(ctx context.Context, in *GetSavedRequest, op
 	return out, nil
 }
 
+func (c *apiGatewayClient) GetMatch(ctx context.Context, in *GetMatchRequest, opts ...grpc.CallOption) (*GetMatchResponse, error) {
+	out := new(GetMatchResponse)
+	err := c.cc.Invoke(ctx, "/api_gateway.v1.ApiGateway/GetMatch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiGatewayServer is the server API for ApiGateway service.
 // All implementations must embed UnimplementedApiGatewayServer
 // for forward compatibility
@@ -245,6 +255,7 @@ type ApiGatewayServer interface {
 	Save(context.Context, *SaveRequest) (*SaveResponse, error)
 	WhoLikedMe(context.Context, *WhoLikedMeRequest) (*WhoLikedMeResponse, error)
 	GetSaved(context.Context, *GetSavedRequest) (*GetSavedResponse, error)
+	GetMatch(context.Context, *GetMatchRequest) (*GetMatchResponse, error)
 	mustEmbedUnimplementedApiGatewayServer()
 }
 
@@ -308,6 +319,9 @@ func (UnimplementedApiGatewayServer) WhoLikedMe(context.Context, *WhoLikedMeRequ
 }
 func (UnimplementedApiGatewayServer) GetSaved(context.Context, *GetSavedRequest) (*GetSavedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSaved not implemented")
+}
+func (UnimplementedApiGatewayServer) GetMatch(context.Context, *GetMatchRequest) (*GetMatchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMatch not implemented")
 }
 func (UnimplementedApiGatewayServer) mustEmbedUnimplementedApiGatewayServer() {}
 
@@ -664,6 +678,24 @@ func _ApiGateway_GetSaved_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiGateway_GetMatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiGatewayServer).GetMatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api_gateway.v1.ApiGateway/GetMatch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiGatewayServer).GetMatch(ctx, req.(*GetMatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiGateway_ServiceDesc is the grpc.ServiceDesc for ApiGateway service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -746,6 +778,10 @@ var ApiGateway_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSaved",
 			Handler:    _ApiGateway_GetSaved_Handler,
+		},
+		{
+			MethodName: "GetMatch",
+			Handler:    _ApiGateway_GetMatch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
