@@ -4,7 +4,7 @@ package api_gateway.v1;
 
 option go_package = "github.com/insp3ctah/grpc-contracts/proto";
 
-service ApiGateway{
+service ApiGateway {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
@@ -27,118 +27,133 @@ service ApiGateway{
   rpc GetMatch(GetMatchRequest) returns (GetMatchResponse);
 }
 
-message RegisterUserRequest{
-  string Mail_addr = 1;
+message RegisterUserRequest {
+  string PhoneNumber = 1;
   string Password = 2;
 }
 
-message RegisterUserResponse{
+message RegisterUserResponse {
   bool Done = 1;
   string Access_token = 2;
   string Refresh_token = 3;
 }
 
-message LoginUserRequest{
-  string Mail_addr = 1;
+message LoginUserRequest {
+  string PhoneNumber = 1;
   string Password = 2;
 }
 
-message LoginUserResponse{
+message LoginUserResponse {
   string Access_token = 1;
   string Refresh_token = 2;
 }
 
-message RefreshTokenRequest{
+message RefreshTokenRequest {
   string Access_token = 1;
   string Refresh_token = 2;
 }
 
-message RefreshTokenResponse{
+message RefreshTokenResponse {
   string Access_token = 1;
   string Refresh_token = 2;
 }
 
-message CheckTokenRequest{
+message CheckTokenRequest {
   string Access_token = 1;
   string Refresh_token = 2;
 }
 
-message CheckTokenResponse{
+message CheckTokenResponse {
   bool Is_correct = 1;
 }
 
-message ReadSelfUserRequest{
+message ReadSelfUserRequest {
   string Access_token = 1;
 }
 
-message SelfUserStruct{
+message SelfUserStruct {
   int32 Id = 1;
-  string Mail_addr = 2;
+  string PhoneNumber = 2;
   string Name = 3;
   int32 Age = 4;
   repeated string Tags = 5;
   repeated string Filestrings = 6;
   bool Is_admin = 7;
   bool Is_premium = 8;
+  Sex_e Sex = 9;
+  Orientation_e Orientation = 10;
+  Smoking_e Smoking = 11;
+  Alcohol_e Alcohol = 12;
+  Sport_e Sport = 13;
 }
 
-message ReadSelfUserResponse{
+message ReadSelfUserResponse {
   SelfUserStruct SelfUser = 1;
 }
 
-message ReadOtherUserRequest{
+message ReadOtherUserRequest {
   string Access_token = 1;
   int32 Id = 2;
 }
 
-message OtherUserStruct{
+message OtherUserStruct {
   int32 Id = 1;
   string Name = 2;
   int32 Age = 3;
   repeated string Tags = 4;
   repeated string Filestrings = 5;
   bool Is_premium = 6;
+  Sex_e Sex = 7;
+  Orientation_e Orientation = 8;
+  Smoking_e Smoking = 9;
+  Alcohol_e Alcohol = 10;
+  Sport_e Sport = 11;
 }
 
-message ReadOtherUserResponse{
+message ReadOtherUserResponse {
   OtherUserStruct OtherUser = 1;
 }
 
-message DeleteUserRequest{
+message DeleteUserRequest {
   string Access_token = 1;
 }
 
-message DeleteUserResponse{
+message DeleteUserResponse {
   bool Done = 1;
 }
 
-message UpdateUserStruct{
-  string Mail_addr = 2;
-  string Password = 3;
-  string Name = 4;
-  int32 Age = 5;
-  int32 MediaIndex = 6;
-  string NewMedia = 7;
-  int32 TagIndex = 8;
-  string NewTag = 9;
-  bool Premium = 10;
-  bool Admin = 11;
+message UpdateUserStruct {
+  string PhoneNumber = 1;
+  string Password = 2;
+  string Name = 3;
+  int32 Age = 4;
+  int32 MediaIndex = 5;
+  string NewMedia = 6;
+  int32 TagIndex = 7;
+  string NewTag = 8;
+  bool Premium = 9;
+  bool Admin = 10;
+  Sex_e Sex = 11;
+  Orientation_e Orientation = 12;
+  Smoking_e Smoking = 13;
+  Alcohol_e Alcohol = 14;
+  Sport_e Sport = 15;
 }
 
-message UpdateUserRequest{
+message UpdateUserRequest {
   string Access_token = 1;
   UpdateUserStruct updates = 2;
 }
 
-message UpdateUserResponse{
+message UpdateUserResponse {
   bool Done = 1;
 }
 
-message GetFeedUserPackRequest{
+message GetFeedUserPackRequest {
   string Access_token = 1;
 }
 
-message GetFeedUserPackResponse{
+message GetFeedUserPackResponse {
   repeated OtherUserStruct UserPack = 1;
 }
 
@@ -147,118 +162,146 @@ message MediaFile {
   bytes Buffer = 2;
 }
 
-message UploadMediaRequest{
+message UploadMediaRequest {
   string Access_token = 1;
   MediaFile Media_file = 2;
   string Content_type = 3;
 }
 
-message UploadMediaResponse{
+message UploadMediaResponse {
   bool Done = 1;
   string fileURL = 2;
 }
 
-message GetMediaUploadUrlRequest{
+message GetMediaUploadUrlRequest {
   string Access_token = 1;
   string ContentType = 2;
   string FileName = 3;
 }
 
-message GetMediaUploadUrlResponse{
+message GetMediaUploadUrlResponse {
   string UploadURL = 1;
   string FileKey = 2;
 }
 
-message ConfirmUploadMediaRequest{
+message ConfirmUploadMediaRequest {
   string accessToken = 1;
   string fileKey = 2;
 }
 
-message ConfirmUploadMediaResponse{
+message ConfirmUploadMediaResponse {
   bool Done = 1;
 }
 
-message DeleteMediaRequest{
+message DeleteMediaRequest {
   string Access_token = 1;
   int32 Index = 2;
 }
 
-message DeleteMediaResponse{
+message DeleteMediaResponse {
   bool Done = 1;
 }
 
-message GetUserMediaRequest{
+message GetUserMediaRequest {
   string Access_token = 1;
   int32 Id = 2;
 }
 
 message GetUserMediaResponse {
-  repeated string Filestrings= 1;
+  repeated string Filestrings = 1;
 }
 
-message LikeRequest{
+message LikeRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message LikeResponse{
+message LikeResponse {
   bool Done = 1;
   bool Match = 2;
   bool OutOfLikes = 3;
 }
 
-message SuperLikeRequest{
+message SuperLikeRequest {
   string AccessToken = 1;
   int32 Id = 2;
   string Message = 3;
 }
 
-message SuperLikeResponse{
+message SuperLikeResponse {
   bool Done = 1;
   bool Match = 2;
 }
 
-message DislikeRequest{
+message DislikeRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message DislikeResponse{
+message DislikeResponse {
   bool Done = 1;
 }
 
-message SaveRequest{
+message SaveRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message SaveResponse{
+message SaveResponse {
   bool Done = 2;
 }
 
-message WhoLikedMeRequest{
+message WhoLikedMeRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message WhoLikedMeResponse{
+message WhoLikedMeResponse {
   repeated OtherUserStruct UserPack = 1;
 }
 
-message GetSavedRequest{
+message GetSavedRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message GetSavedResponse{
+message GetSavedResponse {
   repeated OtherUserStruct UserPack = 1;
 }
 
-message GetMatchRequest{
+message GetMatchRequest {
   string AccessToken = 1;
   int32 Id = 2;
 }
 
-message GetMatchResponse{
+message GetMatchResponse {
   repeated OtherUserStruct UserPack = 1;
+}
+
+enum Sex_e {
+  SexMale = 0;
+  SexFemale = 1;
+}
+
+enum Orientation_e {
+  OrientationStraight = 0;
+  OrientationGay = 1;
+}
+
+enum Smoking_e {
+  SmokingNegative = 0;
+  SmokingPositive = 1;
+  SmokingNone = 2;
+}
+
+enum Alcohol_e {
+  AlcoholNegative = 0;
+  AlcoholPositive = 1;
+  AlcoholNone = 2;
+}
+
+enum Sport_e {
+  SportNegative = 0;
+  SportPositive = 1;
+  SportNone = 2;
 }

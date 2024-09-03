@@ -4,7 +4,7 @@ package bigb_api.v1;
 
 option go_package = "github.com/insp3ctah/grpc-contracts/proto";
 
-service BigBService{
+service BigBService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
@@ -12,8 +12,8 @@ service BigBService{
   rpc AuthDataCorrect(AuthDataCorrectRequest) returns (AuthDataCorrectResponse);
 }
 
-message User{
-  string Mail_addr = 1;
+message User {
+  string PhoneNumber = 1;
   string Password = 2;
   repeated string Tags = 3;
   repeated string Filestrings = 4;
@@ -21,36 +21,41 @@ message User{
   int32 Age = 6;
   bool Is_admin = 7;
   bool Is_premium = 8;
+  Sex_e Sex = 9;
+  Orientation_e Orientation = 10;
+  Smoking_e Smoking = 11;
+  Alcohol_e Alcohol = 12;
+  Sport_e Sport = 13;
 }
 
-message RegisterUserRequest{
-  string Mail_addr = 1;
+message RegisterUserRequest {
+  string PhoneNumber = 1;
   string Password = 2;
 }
 
-message RegisterUserResponse{
+message RegisterUserResponse {
   bool Done = 1;
 }
 
-message DeleteUserRequest{
+message DeleteUserRequest {
   int32 Id = 1;
 }
 
-message DeleteUserResponse{
+message DeleteUserResponse {
   bool Done = 1;
 }
 
 message ReadUserRequest{
-  int32 Id = 1;
+int32 Id = 1;
 }
 
-message ReadUserResponse{
+message ReadUserResponse {
   User user = 1;
 }
 
 message UpdateUserRequest {
   int32 Id = 1;
-  string Mail_addr = 2;
+  string PhoneNumber = 2;
   string Password = 3;
   string Name = 4;
   int32 Age = 5;
@@ -60,23 +65,54 @@ message UpdateUserRequest {
   string NewTag = 9;
   bool Premium = 10;
   bool Admin = 11;
+  Sex_e Sex = 12;
+  Orientation_e Orientation = 13;
+  Smoking_e Smoking = 14;
+  Alcohol_e Alcohol = 15;
+  Sport_e Sport = 16;
 }
 
 message UpdateUserResponse {
   bool Done = 1;
 }
 
-message AuthDataCorrectRequest{
-  string Mail_addr = 1;
+message AuthDataCorrectRequest {
+  string PhoneNumber = 1;
   string Password = 2;
 }
 
-message AuthDataCorrectResponse{
+message AuthDataCorrectResponse {
   bool Is_correct = 1;
   int32 Id = 2;
   bool Is_admin = 3;
   bool Is_premium = 4;
 }
 
+// Enums
+enum Sex_e {
+  SexMale = 0;
+  SexFemale = 1;
+}
 
+enum Orientation_e {
+  OrientationStraight = 0;
+  OrientationGay = 1;
+}
 
+enum Smoking_e {
+  SmokingNegative = 0;
+  SmokingPositive = 1;
+  SmokingNone = 2;
+}
+
+enum Alcohol_e {
+  AlcoholNegative = 0;
+  AlcoholPositive = 1;
+  AlcoholNone = 2;
+}
+
+enum Sport_e {
+  SportNegative = 0;
+  SportPositive = 1;
+  SportNone = 2;
+}

@@ -1,11 +1,30 @@
 syntax = "proto3";
 
-package ai_api.v1;
+package ai.v1;
 
-option go_package = "github.com/insp3ctah/grpc-contracts/proto";
+option go_package = "github.com/CoupleBillionsTeam/grpc-contracts/blob/main/proto/ai_api";
+
+enum WantedSex {
+  DRAFT_STATUS_UNSPECIFIED = 0;
+  WANTED_STATUS_MEN = 1;
+  WANTED_STATUS_WOMEN = 2;
+  WANTED_STATUS_NO_MATTER = 3;
+}
+
+message Filter{
+  int32 StartAge = 1;
+  int32 EndAge = 2;
+  WantedSex SexWanted = 3;
+  bool Verified = 4;
+  repeated string Tags = 5;
+  int32 MaxDistance = 6;
+  int32 MinHeight = 7;
+  int32 MaxHeight = 8;
+}
 
 message AiApiRequest{
   int32 id = 1;
+  Filter filter = 2;
 }
 
 message AiApiResponse{
@@ -15,3 +34,5 @@ message AiApiResponse{
 service AiApiService{
   rpc GetIdFromAi(AiApiRequest) returns (AiApiResponse);
 }
+
+//todo go gen
