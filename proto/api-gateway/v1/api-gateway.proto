@@ -85,6 +85,7 @@ message SelfUserStruct {
   Smoking_e Smoking = 11;
   Alcohol_e Alcohol = 12;
   Sport_e Sport = 13;
+  int32 Height = 14;
 }
 
 message ReadSelfUserResponse {
@@ -108,6 +109,7 @@ message OtherUserStruct {
   Smoking_e Smoking = 9;
   Alcohol_e Alcohol = 10;
   Sport_e Sport = 11;
+  int32 Height = 12;
 }
 
 message ReadOtherUserResponse {
@@ -138,6 +140,7 @@ message UpdateUserStruct {
   Smoking_e Smoking = 13;
   Alcohol_e Alcohol = 14;
   Sport_e Sport = 15;
+  int32 Height = 16;
 }
 
 message UpdateUserRequest {

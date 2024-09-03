@@ -26,6 +26,7 @@ message User {
   Smoking_e Smoking = 11;
   Alcohol_e Alcohol = 12;
   Sport_e Sport = 13;
+  int32 Height = 14;
 }
 
 message RegisterUserRequest {
