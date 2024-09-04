@@ -72,7 +72,9 @@ message GetSavedResponse{
   repeated int32 Users = 1;
 }
 
-message CreateUserRequest{}
+message CreateUserRequest{
+  int32 RealId = 1;
+}
 
 message CreateUserResponse{
   bool Done = 1;
