@@ -36,6 +36,7 @@ message RegisterUserRequest {
 
 message RegisterUserResponse {
   bool Done = 1;
+  int32 Id = 2;
 }
 
 message DeleteUserRequest {
