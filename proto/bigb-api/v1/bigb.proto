@@ -72,6 +72,7 @@ message UpdateUserRequest {
   Smoking_e Smoking = 14;
   Alcohol_e Alcohol = 15;
   Sport_e Sport = 16;
+  repeated string Tags = 17;
 }
 
 message UpdateUserResponse {
