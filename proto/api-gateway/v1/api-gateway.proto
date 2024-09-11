@@ -86,6 +86,7 @@ message SelfUserStruct {
   Alcohol_e Alcohol = 12;
   Sport_e Sport = 13;
   int32 Height = 14;
+  string Description = 15;
 }
 
 message ReadSelfUserResponse {
@@ -110,6 +111,7 @@ message OtherUserStruct {
   Alcohol_e Alcohol = 10;
   Sport_e Sport = 11;
   int32 Height = 12;
+  string Description = 13;
 }
 
 message ReadOtherUserResponse {
@@ -142,6 +144,7 @@ message UpdateUserStruct {
   Sport_e Sport = 15;
   int32 Height = 16;
   repeated string Tags = 17;
+  string Description = 18;
 }
 
 message UpdateUserRequest {
