@@ -764,7 +764,8 @@ type SelfUserStruct struct {
 	Smoking     SmokingE     `protobuf:"varint,11,opt,name=Smoking,proto3,enum=api_gateway.v1.SmokingE" json:"Smoking,omitempty"`
 	Alcohol     AlcoholE     `protobuf:"varint,12,opt,name=Alcohol,proto3,enum=api_gateway.v1.AlcoholE" json:"Alcohol,omitempty"`
 	Sport       SportE       `protobuf:"varint,13,opt,name=Sport,proto3,enum=api_gateway.v1.SportE" json:"Sport,omitempty"`
-	Height      int32        `protobuf:"varint,14,opt,name=Height,proto3" json:"Height,omitempty"`Description string       `protobuf:"bytes,15,opt,name=Description,proto3" json:"Description,omitempty"`
+	Height      int32        `protobuf:"varint,14,opt,name=Height,proto3" json:"Height,omitempty"`
+	Description string       `protobuf:"bytes,15,opt,name=Description,proto3" json:"Description,omitempty"`
 }
 
 func (x *SelfUserStruct) Reset() {
